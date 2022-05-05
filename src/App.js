@@ -1,9 +1,11 @@
 import { FormControl, MenuItem, Select } from '@mui/material';
 import { useEffect, useState } from 'react';
 import './App.css';
+import InfoBox from './components/InfoBox';
 
 function App() {
   const [countries, setCountries] = useState([]);
+  const [country, setCountry] = useState('worldwide');
 
   useEffect(() => {
     const getCountriesData = async () => {
@@ -19,24 +21,32 @@ function App() {
     };
     getCountriesData();
   }, []);
+
+  const onCountryChange = async (e) => {
+    const countryCode = e.target.value;
+    console.log('country code:', countryCode);
+    setCountry(countryCode);
+  };
+
   return (
     <div className='app'>
       <div className='app__header'>
         <h1>Covid-19 Tracker</h1>
         <FormControl className='app__dropdown' value='abc'>
-          <Select variant='outlined'>
+          <Select variant='outlined' value={country} onChange={onCountryChange}>
+            <MenuItem value='worldwide'>Worldwide</MenuItem>
             {countries.map((country) => (
-              <MenuItem value={country.name}>{country.name}</MenuItem>
+              <MenuItem value={country.value}>{country.name}</MenuItem>
             ))}
           </Select>
         </FormControl>
       </div>
-      {/* Header */}
-      {/* Title + Select input dropdown field */}
 
-      {/* InfoBoxs */}
-      {/* InfoBoxs */}
-      {/* InfoBoxs */}
+      <div className='app__stats'>
+        <InfoBox title='Coronavirus cases' total='455' cases='57658' />
+        <InfoBox title='Recovered' total='678' cases='768' />
+        <InfoBox title='Deaths' total='56' cases='56568' />
+      </div>
 
       {/* Table */}
       {/* Graph */}
